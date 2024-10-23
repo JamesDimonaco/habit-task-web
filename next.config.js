@@ -3,4 +3,4 @@ const nextConfig = {
   transpilePackages: ["lucide-react"],
 };
 
-export default nextConfig;
+module.exports = nextConfig;
