@@ -1,6 +1,5 @@
 import { Habbit } from "@/components/habbit";
 import { getHabbit } from "@/lib/server/habbit-actions";
-import { HabbitType } from "@/lib/types";
 
 export default async function Page({
   params,

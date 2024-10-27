@@ -1,5 +1,5 @@
 {
-  "name": "jamesdimoanco",
+  "name": "habit-task",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -27,9 +27,10 @@
     "lucide-react": "^0.453.0",
     "next": "15.0.0",
     "node-appwrite": "^14.1.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.1",
+    "recharts": "^2.13.0-alpha.5",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
