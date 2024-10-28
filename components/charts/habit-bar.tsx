@@ -16,35 +16,35 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { HabbitType } from "@/lib/types";
-import { getHabbitChartData } from "@/lib/server/habbit-actions";
+import { HabitType } from "@/lib/types";
+import { getHabitChartData } from "@/lib/server/habit-actions";
 import { useEffect, useState } from "react";
 
 const chartConfig = {
   logged: {
-    label: "Habbit Logged",
+    label: "Habit Logged",
   },
 } satisfies ChartConfig;
 
-export function HabbitBarChart({ habbit }: { habbit: HabbitType }) {
+export function HabitBarChart({ habit }: { habit: HabitType }) {
   const [chartData, setChartData] = useState<
     Array<{ date: string; logged: boolean }>
   >([]);
 
   useEffect(() => {
     const fetchChartData = async () => {
-      const data = await getHabbitChartData(habbit.id);
+      const data = await getHabitChartData(habit.id);
       setChartData(data);
     };
     fetchChartData();
-  }, [habbit.id]);
+  }, [habit.id]);
   console.log(chartData);
 
   return (
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>Bar Chart - {habbit.name}</CardTitle>
+          <CardTitle>Bar Chart - {habit.name}</CardTitle>
           <CardDescription>Daily habit tracking visualization</CardDescription>
         </div>
       </CardHeader>

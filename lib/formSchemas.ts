@@ -11,7 +11,7 @@ export const loginFormSchema = z.object({
   password: z.string().min(8),
 });
 
-export const habbitFormSchema = z.object({
+export const habitFormSchema = z.object({
   name: z.string().min(2).max(30),
   description: z.string().max(200).optional(),
   frequency: z.enum(["daily", "weekly", "monthly"]),

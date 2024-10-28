@@ -19,19 +19,19 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { HabbitType } from "@/lib/types";
-import { deleteHabbit } from "@/lib/server/habbit-actions";
+import { HabitType } from "@/lib/types";
+import { deleteHabit } from "@/lib/server/habit-actions";
 import { useRouter } from "next/navigation";
 
-export function NavHabbits({ habbits }: { habbits: HabbitType[] }) {
+export function NavHabits({ habits }: { habits: HabitType[] }) {
   const { isMobile } = useSidebar();
   const router = useRouter();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Habbits</SidebarGroupLabel>
+      <SidebarGroupLabel>Habits</SidebarGroupLabel>
       <SidebarMenu>
-        {habbits.map((item) => (
+        {habits.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <Link href={`/dashboard/${item.id}`}>
@@ -61,19 +61,19 @@ export function NavHabbits({ habbits }: { habbits: HabbitType[] }) {
                   onClick={() => router.push(`/dashboard/${item.id}`)}
                 >
                   <Folder />
-                  <span>View Habbit</span>
+                  <span>View Habit</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Forward />
-                  <span>Share Habbit</span>
+                  <span>Share Habit</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  onClick={() => deleteHabbit(item.id)}
+                  onClick={() => deleteHabit(item.id)}
                   className="cursor-pointer"
                 >
                   <Trash2 className="text-muted-foreground" />
-                  <span>Delete Habbit</span>
+                  <span>Delete Habit</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

@@ -18,10 +18,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
-import { habbitFormSchema } from "@/lib/formSchemas";
+import { habitFormSchema } from "@/lib/formSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { createHabbit } from "@/lib/server/habbit-actions";
+import { createHabit } from "@/lib/server/habit-actions";
 import {
   Select,
   SelectItem,
@@ -34,11 +34,11 @@ import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "../ui/toast";
 import { useRouter } from "next/navigation";
 
-export function HabbitForm() {
+export function HabitForm() {
   const { toast } = useToast();
   const router = useRouter();
-  const form = useForm<z.infer<typeof habbitFormSchema>>({
-    resolver: zodResolver(habbitFormSchema),
+  const form = useForm<z.infer<typeof habitFormSchema>>({
+    resolver: zodResolver(habitFormSchema),
     defaultValues: {
       name: "",
       description: "",
@@ -47,28 +47,28 @@ export function HabbitForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof habbitFormSchema>) {
+  async function onSubmit(data: z.infer<typeof habitFormSchema>) {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    const { error, name, id, message } = await createHabbit(formData);
+    const { error, name, id, message } = await createHabit(formData);
     if (error) {
       toast({
         variant: "destructive",
-        title: "Failed to create habbit",
+        title: "Failed to create habit",
         description: message,
       });
     } else {
       toast({
-        title: `Habbit ${name} created`,
-        description: "Your habbit has been created",
+        title: `Habit ${name} created`,
+        description: "Your habit has been created",
         action: (
           <ToastAction
             onClick={() => router.push(`/dashboard/${id}`)}
-            altText="Go to habbit"
+            altText="Go to habit"
           >
-            Go to habbit
+            Go to habit
           </ToastAction>
         ),
       });
@@ -79,8 +79,8 @@ export function HabbitForm() {
   return (
     <Card className="mx-auto max-w-sm ">
       <CardHeader>
-        <CardTitle className="text-2xl">Create Habbit</CardTitle>
-        <CardDescription>Enter your habbit details below</CardDescription>
+        <CardTitle className="text-2xl">Create Habit</CardTitle>
+        <CardDescription>Enter your habit details below</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -97,14 +97,12 @@ export function HabbitForm() {
                         <Input
                           id="name"
                           type="text"
-                          placeholder="Habbit Name"
+                          placeholder="Habit Name"
                           required
                           {...field}
                         />
                       </FormControl>
-                      <FormDescription>
-                        This is your habbit name
-                      </FormDescription>
+                      <FormDescription>This is your habit name</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -153,7 +151,7 @@ export function HabbitForm() {
                 />
               </div>
               <Button type="submit" className="w-full">
-                Create Habbit
+                Create Habit
               </Button>
             </div>
           </form>

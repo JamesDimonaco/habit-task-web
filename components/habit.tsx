@@ -1,23 +1,23 @@
 "use client";
 
-import { HabbitType } from "@/lib/types";
+import { HabitType } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "./ui/button";
-import { logHabbit } from "@/lib/server/habbit-actions";
+import { logHabit } from "@/lib/server/habit-actions";
 import { useToast } from "@/hooks/use-toast";
-import { HabbitBarChart } from "./charts/habbit-bar";
+import { HabitBarChart } from "./charts/habit-bar";
 import { Suspense } from "react";
-import { HabbitRadicalChart } from "./charts/habbit-radical";
-import { HabbitContributionGraph } from "./charts/habbit-contribution-graph";
+import { HabitRadicalChart } from "./charts/habit-radical";
+import { HabitContributionGraph } from "./charts/habit-contribution-graph";
 
 type ToastVariant = "default" | "destructive" | null | undefined;
 
-export const Habbit = ({ habbit }: { habbit: HabbitType }) => {
+export const Habit = ({ habit }: { habit: HabitType }) => {
   const { toast } = useToast();
 
-  const handleLogHabbit = async () => {
-    const { message, variant } = await logHabbit(habbit.id);
+  const handleLogHabit = async () => {
+    const { message, variant } = await logHabit(habit.id);
     console.log(message);
 
     toast({
@@ -31,22 +31,22 @@ export const Habbit = ({ habbit }: { habbit: HabbitType }) => {
       <Card>
         <CardHeader className="flex justify-between flex-row gap-2">
           <Badge>
-            {habbit.frequency}: {habbit.logs.length}
+            {habit.frequency}: {habit.logs.length}
           </Badge>
-          <CardTitle>{habbit.name}</CardTitle>
+          <CardTitle>{habit.name}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>{habbit.description}</p>
-          <Button onClick={handleLogHabbit}>Log Habbit</Button>
+          <p>{habit.description}</p>
+          <Button onClick={handleLogHabit}>Log Habit</Button>
         </CardContent>
       </Card>
 
       <Suspense fallback={<div>Loading...</div>}>
         <div className="w-full max-w-2xl">
-          <HabbitContributionGraph habbit={habbit} />
-          {/* <HabbitBarChart habbit={habbit} /> */}
+          <HabitContributionGraph habit={habit} />
+          {/* <HabitBarChart habit={habit} /> */}
         </div>
-        {/* <HabbitRadicalChart /> */}
+        {/* <HabitRadicalChart /> */}
       </Suspense>
     </div>
   );

@@ -7,10 +7,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { getHabbitChartData } from "@/lib/server/habbit-actions";
-import { HabbitType } from "@/lib/types";
+import { getHabitChartData } from "@/lib/server/habit-actions";
+import { HabitType } from "@/lib/types";
 
-export function HabbitContributionGraph({ habbit }: { habbit: HabbitType }) {
+export function HabitContributionGraph({ habit }: { habit: HabitType }) {
   const [chartData, setChartData] = useState<
     Array<{ date: string; logged: boolean }>
   >([]);
@@ -20,7 +20,7 @@ export function HabbitContributionGraph({ habbit }: { habbit: HabbitType }) {
     const fetchChartData = async () => {
       setIsLoading(true);
       try {
-        const data = await getHabbitChartData(habbit.id);
+        const data = await getHabitChartData(habit.id);
         setChartData(data);
       } catch (error) {
         console.error("Error fetching habit data:", error);
@@ -29,7 +29,7 @@ export function HabbitContributionGraph({ habbit }: { habbit: HabbitType }) {
       }
     };
     fetchChartData();
-  }, [habbit.id]);
+  }, [habit.id]);
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const monthsOfYear = [

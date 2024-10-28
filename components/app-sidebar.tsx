@@ -4,7 +4,7 @@ import * as React from "react";
 import { Plus } from "lucide-react";
 
 // import { NavMain } from "@/components/nav-main";
-import { NavHabbits } from "@/components/nav-habbits";
+import { NavHabits } from "@/components/nav-habits";
 import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
@@ -14,7 +14,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
-import { HabbitType } from "@/lib/types";
+import { HabitType } from "@/lib/types";
 import Link from "next/link";
 
 // This is sample data.
@@ -128,7 +128,7 @@ import Link from "next/link";
 //   //     ],
 //   //   },
 //   // ],
-//   habbits: [
+//   habits: [
 //     {
 //       name: "Design Engineering",
 //       url: "#",
@@ -148,11 +148,11 @@ import Link from "next/link";
 // };
 
 export function AppSidebar({
-  habbits,
+  habits,
   user,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
-  habbits: HabbitType[];
+  habits: HabitType[];
   user: {
     name: string;
     email: string;
@@ -166,14 +166,14 @@ export function AppSidebar({
           <Plus />
           <Link href="/dashboard">
             <span className="group-data-[collapsible=icon]:hidden">
-              New Habbit
+              New Habit
             </span>
           </Link>
         </Button>
       </SidebarHeader>
       <SidebarContent>
         {/* <NavMain items={data.navMain} /> */}
-        <NavHabbits habbits={habbits} />
+        <NavHabits habits={habits} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user} />

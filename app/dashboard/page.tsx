@@ -1,5 +1,5 @@
-import { HabbitForm } from "@/components/forms/habbit-form";
+import { HabitForm } from "@/components/forms/habit-form";
 
 export default function Page() {
-  return <HabbitForm />;
+  return <HabitForm />;
 }

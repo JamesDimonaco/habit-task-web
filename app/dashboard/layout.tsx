@@ -14,7 +14,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { getLoggedInUser } from "@/lib/server/appwrite";
-import { getHabbits } from "@/lib/server/habbit-actions";
+import { getHabits } from "@/lib/server/habit-actions";
 import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
@@ -28,11 +28,11 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
-  const habbits = await getHabbits();
+  const habits = await getHabits();
 
   return (
     <SidebarProvider>
-      <AppSidebar habbits={habbits} user={user} />
+      <AppSidebar habits={habits} user={user} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
@@ -42,12 +42,12 @@ export default async function DashboardLayout({
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="/dashboard">
-                    Your Habbits
+                    Your Habits
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Create Habbit</BreadcrumbPage>
+                  <BreadcrumbPage>Create Habit</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb> */}

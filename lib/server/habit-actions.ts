@@ -1,15 +1,15 @@
 "use server";
 
 import { ID, Permission, Role } from "node-appwrite";
-import { habbitFormSchema } from "../formSchemas";
+import { habitFormSchema } from "../formSchemas";
 import { createDatabasesClient, getLoggedInUser } from "./appwrite";
 import { redirect } from "next/navigation";
-import { HabbitType } from "../types";
+import { HabitType } from "../types";
 import { revalidatePath } from "next/cache";
 
-export async function createHabbit(data: FormData) {
+export async function createHabit(data: FormData) {
   const formData = Object.fromEntries(data);
-  const parsedData = habbitFormSchema.safeParse(formData);
+  const parsedData = habitFormSchema.safeParse(formData);
   const user = await getLoggedInUser();
 
   if (!user?.$id) {
@@ -30,7 +30,7 @@ export async function createHabbit(data: FormData) {
   try {
     const response = await databases.createDocument(
       process.env.APPWRITE_DATABASE_ID ?? "",
-      process.env.APPWRITE_HABBITS_COLLECTION_ID ?? "",
+      process.env.APPWRITE_HABITS_COLLECTION_ID ?? "",
       ID.unique(),
       parsedData.data,
       [
@@ -42,26 +42,26 @@ export async function createHabbit(data: FormData) {
     revalidatePath("/dashboard");
 
     return {
-      message: "Habbit created",
+      message: "Habit created",
       name: response.name,
       id: response.$id,
     };
   } catch (error) {
     console.log(error);
     return {
-      message: "Failed to create habbit",
+      message: "Failed to create habit",
       error: error,
     };
   }
 }
 
-export async function getHabbit(habbitId: string): Promise<HabbitType | null> {
+export async function getHabit(habitId: string): Promise<HabitType | null> {
   try {
     const databases = await createDatabasesClient();
     const response = await databases.getDocument(
       process.env.APPWRITE_DATABASE_ID ?? "",
-      process.env.APPWRITE_HABBITS_COLLECTION_ID ?? "",
-      habbitId
+      process.env.APPWRITE_HABITS_COLLECTION_ID ?? "",
+      habitId
     );
 
     return {
@@ -79,7 +79,7 @@ export async function getHabbit(habbitId: string): Promise<HabbitType | null> {
   }
 }
 
-export async function getHabbits(): Promise<HabbitType[]> {
+export async function getHabits(): Promise<HabitType[]> {
   const user = await getLoggedInUser();
 
   if (!user?.$id) {
@@ -89,7 +89,7 @@ export async function getHabbits(): Promise<HabbitType[]> {
   const databases = await createDatabasesClient();
   const response = await databases.listDocuments(
     process.env.APPWRITE_DATABASE_ID ?? "",
-    process.env.APPWRITE_HABBITS_COLLECTION_ID ?? ""
+    process.env.APPWRITE_HABITS_COLLECTION_ID ?? ""
   );
   return response.documents.map((doc) => ({
     name: doc.name,
@@ -102,37 +102,37 @@ export async function getHabbits(): Promise<HabbitType[]> {
   }));
 }
 
-export async function deleteHabbit(habbitId: string) {
+export async function deleteHabit(habitId: string) {
   const databases = await createDatabasesClient();
   await databases.deleteDocument(
     process.env.APPWRITE_DATABASE_ID ?? "",
-    process.env.APPWRITE_HABBITS_COLLECTION_ID ?? "",
-    habbitId
+    process.env.APPWRITE_HABITS_COLLECTION_ID ?? "",
+    habitId
   );
 
   revalidatePath("/dashboard");
   redirect("/dashboard");
 }
 
-export async function logHabbit(habbitId: string) {
+export async function logHabit(habitId: string) {
   const date = new Date();
 
-  const habbit = await getHabbit(habbitId);
+  const habit = await getHabit(habitId);
 
-  if (!habbit) {
+  if (!habit) {
     return {
-      message: "Habbit not found",
+      message: "Habit not found",
       variant: "destructive",
     };
   }
 
   if (
-    habbit.logs.find(
+    habit.logs.find(
       (log) => log.date.split("T")[0] === date.toISOString().split("T")[0]
     )
   ) {
     return {
-      message: "Habbit already logged today",
+      message: "Habit already logged today",
       variant: "default",
     };
   }
@@ -142,27 +142,27 @@ export async function logHabbit(habbitId: string) {
   try {
     await databases.createDocument(
       process.env.APPWRITE_DATABASE_ID ?? "",
-      process.env.APPWRITE_HABBITS_LOG_COLLECTION_ID ?? "",
+      process.env.APPWRITE_HABITS_LOG_COLLECTION_ID ?? "",
       ID.unique(),
       {
         date: date.toISOString(),
-        habbit: habbitId,
+        habit_id: habitId,
       }
     );
     return {
-      message: "Habbit logged successfully",
+      message: "Habit logged successfully",
       variant: "default",
     };
   } catch (error) {
     console.log(error);
     return {
-      message: "Failed to log habbit",
+      message: "Failed to log habit",
     };
   }
 }
-export async function updateHabbit(habbitId: string, data: FormData) {
+export async function updateHabit(habitId: string, data: FormData) {
   const formData = Object.fromEntries(data);
-  const parsedData = habbitFormSchema.safeParse(formData);
+  const parsedData = habitFormSchema.safeParse(formData);
   if (!parsedData.success) {
     return {
       message: "Invalid form data",
@@ -172,20 +172,20 @@ export async function updateHabbit(habbitId: string, data: FormData) {
   const databases = await createDatabasesClient();
   await databases.updateDocument(
     process.env.APPWRITE_DATABASE_ID ?? "",
-    process.env.APPWRITE_HABBITS_COLLECTION_ID ?? "",
-    habbitId,
+    process.env.APPWRITE_HABITS_COLLECTION_ID ?? "",
+    habitId,
     parsedData.data
   );
 }
 
-export async function getHabbitChartData(habbitId: string) {
-  const habbit = await getHabbit(habbitId);
+export async function getHabitChartData(habitId: string) {
+  const habit = await getHabit(habitId);
 
-  if (!habbit) {
+  if (!habit) {
     return [];
   }
 
-  const createdDate = new Date(habbit.createdAt);
+  const createdDate = new Date(habit.createdAt);
   const today = new Date();
 
   const daysBetween = Math.ceil(
@@ -198,7 +198,7 @@ export async function getHabbitChartData(habbitId: string) {
     const date = new Date(createdDate);
     date.setDate(date.getDate() + i);
 
-    const log = habbit.logs.find(
+    const log = habit.logs.find(
       (log) => log.date.split("T")[0] === date.toISOString().split("T")[0]
     );
 

@@ -1,9 +1,9 @@
 export interface LogType {
   date: string;
-  habbit: string;
+  habit: string;
 }
 
-export interface HabbitType {
+export interface HabitType {
   name: string;
   description: string;
   frequency: string;
