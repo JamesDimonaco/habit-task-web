@@ -6,9 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "./ui/button";
 import { logHabit } from "@/lib/server/habit-actions";
 import { useToast } from "@/hooks/use-toast";
-import { HabitBarChart } from "./charts/habit-bar";
 import { Suspense } from "react";
-import { HabitRadicalChart } from "./charts/habit-radical";
 import { HabitContributionGraph } from "./charts/habit-contribution-graph";
 
 type ToastVariant = "default" | "destructive" | null | undefined;
@@ -44,9 +42,7 @@ export const Habit = ({ habit }: { habit: HabitType }) => {
       <Suspense fallback={<div>Loading...</div>}>
         <div className="w-full max-w-2xl">
           <HabitContributionGraph habit={habit} />
-          {/* <HabitBarChart habit={habit} /> */}
         </div>
-        {/* <HabitRadicalChart /> */}
       </Suspense>
     </div>
   );

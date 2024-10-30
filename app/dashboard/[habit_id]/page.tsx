@@ -1,11 +1,9 @@
 import { Habit } from "@/components/habit";
 import { getHabit } from "@/lib/server/habit-actions";
 
-export default async function Page({
-  params,
-}: {
-  params: { habit_id: string };
-}) {
+type Params = Promise<{ habit_id: string }>;
+
+export default async function Page({ params }: { params: Params }) {
   const { habit_id } = await params;
   const habit = await getHabit(habit_id);
 
