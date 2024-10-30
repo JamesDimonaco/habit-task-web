@@ -5,16 +5,17 @@ import { loginFormSchema, signupFormSchema } from "@/lib/formSchemas";
 import { redirect } from "next/navigation";
 
 export async function createSessionClient() {
-  const client = new Client()
-    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT ?? "")
-    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT ?? "");
+  const cookieStore = cookies();
+  const session = (await cookieStore).get("habitask-session");
 
-  const session = (await cookies()).get("my-custom-session");
   if (!session || !session.value) {
     throw new Error("No session");
   }
 
-  client.setSession(session.value);
+  const client = new Client()
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT ?? "")
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT ?? "")
+    .setSession(session.value);
 
   return {
     get account() {
@@ -79,7 +80,8 @@ export async function onSubmitUserSignup(data: FormData) {
     parsedData.data.password
   );
 
-  (await cookies()).set("my-custom-session", session.secret, {
+  const cookieStore = cookies();
+  (await cookieStore).set("habitask-session", session.secret, {
     path: "/",
     httpOnly: true,
     sameSite: "strict",
@@ -106,7 +108,8 @@ export async function onSubmitUserLogin(data: FormData) {
     parsedData.data.password
   );
 
-  (await cookies()).set("my-custom-session", session.secret, {
+  const cookieStore = cookies();
+  (await cookieStore).set("habitask-session", session.secret, {
     path: "/",
     httpOnly: true,
     sameSite: "strict",
@@ -117,6 +120,7 @@ export async function onSubmitUserLogin(data: FormData) {
 }
 
 export async function onSubmitUserLogout() {
-  (await cookies()).delete("my-custom-session");
+  const cookieStore = cookies();
+  (await cookieStore).delete("habitask-session");
   redirect("/login");
 }
