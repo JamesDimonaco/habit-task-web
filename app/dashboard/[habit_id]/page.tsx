@@ -1,5 +1,6 @@
 import { Habit } from "@/components/habit";
 import { getHabit } from "@/lib/server/habit-actions";
+export const dynamic = "force-dynamic";
 
 type Params = Promise<{ habit_id: string }>;
 
