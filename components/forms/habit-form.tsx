@@ -21,7 +21,7 @@ import { z } from "zod";
 import { habitFormSchema } from "@/lib/formSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { createHabit } from "@/lib/server/habit-actions";
+import { createHabit } from "@/lib/server/habits";
 import {
   Select,
   SelectItem,
@@ -43,7 +43,6 @@ export function HabitForm() {
       name: "",
       description: "",
       frequency: "daily",
-      icon: "",
     },
   });
 

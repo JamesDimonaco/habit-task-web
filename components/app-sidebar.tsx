@@ -14,7 +14,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
-import { HabitType } from "@/lib/types";
+import { HabitType, UserType } from "@/lib/types";
 import Link from "next/link";
 
 // This is sample data.
@@ -153,11 +153,7 @@ export function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
   habits: HabitType[];
-  user: {
-    name: string;
-    email: string;
-    avatar?: string;
-  };
+  user: UserType;
 }) {
   return (
     <Sidebar collapsible="icon" {...props}>

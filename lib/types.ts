@@ -12,3 +12,10 @@ export interface HabitType {
   logs: LogType[];
   createdAt: string;
 }
+
+export interface UserType {
+  username: string;
+  email: string;
+  avatar?: string;
+  id: string;
+}

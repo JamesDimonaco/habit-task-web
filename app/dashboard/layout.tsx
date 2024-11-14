@@ -4,22 +4,19 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { getLoggedInUser } from "@/lib/server/appwrite";
-import { getHabits } from "@/lib/server/habit-actions";
-import { redirect } from "next/navigation";
+import { getUser } from "@/lib/server/auth";
+import { getHabits } from "@/lib/server/habits";
 
 export default async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getLoggedInUser();
-
-  if (!user) {
-    redirect("/login");
-  }
+  const user = await getUser();
+  console.log(user);
 
   const habits = await getHabits();
+  console.log(habits);
 
   return (
     <SidebarProvider>

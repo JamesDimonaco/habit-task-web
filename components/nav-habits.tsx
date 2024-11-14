@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { HabitType } from "@/lib/types";
-import { deleteHabit } from "@/lib/server/habit-actions";
+import { deleteHabit } from "@/lib/server/habits";
 import { useRouter } from "next/navigation";
 
 export function NavHabits({ habits }: { habits: HabitType[] }) {
@@ -31,54 +31,55 @@ export function NavHabits({ habits }: { habits: HabitType[] }) {
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Habits</SidebarGroupLabel>
       <SidebarMenu>
-        {habits.map((item) => (
-          <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <Link href={`/dashboard/${item.id}`}>
-                {/* {item.icon && (
+        {habits &&
+          habits.map((item) => (
+            <SidebarMenuItem key={item.name}>
+              <SidebarMenuButton asChild>
+                <Link href={`/dashboard/${item.id}`}>
+                  {/* {item.icon && (
                   <Icon
                     name={
                       item.icon.toLowerCase() as keyof typeof dynamicIconImports
                     }
                   /> */}
-                {/* )} */}
-                <span>{item.name}</span>
-              </Link>
-            </SidebarMenuButton>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuAction showOnHover>
-                  <MoreHorizontal />
-                  <span className="sr-only">More</span>
-                </SidebarMenuAction>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-48 rounded-lg"
-                side={isMobile ? "bottom" : "right"}
-                align={isMobile ? "end" : "start"}
-              >
-                <DropdownMenuItem
-                  onClick={() => router.push(`/dashboard/${item.id}`)}
+                  {/* )} */}
+                  <span>{item.name}</span>
+                </Link>
+              </SidebarMenuButton>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuAction showOnHover>
+                    <MoreHorizontal />
+                    <span className="sr-only">More</span>
+                  </SidebarMenuAction>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-48 rounded-lg"
+                  side={isMobile ? "bottom" : "right"}
+                  align={isMobile ? "end" : "start"}
                 >
-                  <Folder />
-                  <span>View Habit</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Forward />
-                  <span>Share Habit</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={() => deleteHabit(item.id)}
-                  className="cursor-pointer"
-                >
-                  <Trash2 className="text-muted-foreground" />
-                  <span>Delete Habit</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        ))}
+                  <DropdownMenuItem
+                    onClick={() => router.push(`/dashboard/${item.id}`)}
+                  >
+                    <Folder />
+                    <span>View Habit</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Forward />
+                    <span>Share Habit</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => deleteHabit(item.id)}
+                    className="cursor-pointer"
+                  >
+                    <Trash2 className="text-muted-foreground" />
+                    <span>Delete Habit</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          ))}
         <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
             <MoreHorizontal className="text-sidebar-foreground/70" />

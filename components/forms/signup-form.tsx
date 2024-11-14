@@ -22,12 +22,12 @@ import { z } from "zod";
 import { signupFormSchema } from "@/lib/formSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { onSubmitUserSignup } from "@/lib/server/appwrite";
+import { onSubmitUserSignup } from "@/lib/server/auth";
 export function SignupForm() {
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
-      name: "",
+      username: "",
       email: "",
       password: "",
     },
@@ -38,6 +38,7 @@ export function SignupForm() {
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
     });
+    console.log(formData);
     await onSubmitUserSignup(formData);
   }
 
@@ -56,7 +57,7 @@ export function SignupForm() {
               <div className="grid gap-2">
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="username"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel htmlFor="name">Name</FormLabel>

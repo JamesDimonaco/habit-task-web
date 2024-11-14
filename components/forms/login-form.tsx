@@ -22,7 +22,7 @@ import { z } from "zod";
 import { loginFormSchema } from "@/lib/formSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { onSubmitUserLogin } from "@/lib/server/appwrite";
+import { onSubmitUserLogin } from "@/lib/server/auth";
 
 export function LoginForm() {
   const form = useForm<z.infer<typeof loginFormSchema>>({
